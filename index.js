@@ -62,7 +62,7 @@ Toolkit.run( async ( tools ) => {
             tools.log('TOKEN:');
             tools.log(result);
             hsToken = result;
-          }
+          });
 
           // Get HS ticket threads
           let getTicketThreads = new Promise( async( resolve, reject ) => {
