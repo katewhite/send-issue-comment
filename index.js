@@ -28,7 +28,7 @@ Toolkit.run( async ( tools ) => {
         // Get HS access token
         axios.post('https://api.helpscout.net/v2/oauth2/token', {
           grant_type: "client_credentials", 
-          client_id: "0def26e02fe841fbbbe1dff415284eb8"
+          client_id: "0def26e02fe841fbbbe1dff415284eb8",
           client_secret: "da7db41c06814699a0f8f1c9354aa57c"
         })
         .then(function (response) {
