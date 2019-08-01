@@ -32,11 +32,16 @@ Toolkit.run( async ( tools ) => {
           try {
             let request = new XMLHttpRequest();
             let url = `https://api.helpscout.net/v2/oauth2/token`;
+            let params = {
+              "grant_type":"client_credentials",
+              "client_id": "0def26e02fe841fbbbe1dff415284eb8",
+              "client_secret": "da7db41c06814699a0f8f1c9354aa57c"
+            }
 
             request.open('POST', url, true);
 
             // Send request
-            request.send("grant_type=client_credentials&client_id=0def26e02fe841fbbbe1dff415284eb8&client_secret=da7db41c06814699a0f8f1c9354aa57c");
+            request.send(JSON.stringify(params));
 
             resolve();
           }
