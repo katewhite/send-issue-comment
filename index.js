@@ -21,6 +21,7 @@ Toolkit.run( async ( tools ) => {
         ticketNumber = body.match( ".+\/(.*)\?" )[0];
       }
 
+      tools.log('TICKET:');
       tools.log(ticketNumber);
 
       // Send to Zapier
