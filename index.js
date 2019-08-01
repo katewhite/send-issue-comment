@@ -39,6 +39,7 @@ Toolkit.run( async ( tools ) => {
 
             request.addEventListener("readystatechange", function () {
               tools.log('readystatechange');
+              tools.log(this.readyState);
               if (this.readyState === 4) {
                 tools.log('RESPONSE TEXT:');
                 tools.log(this.responseText);
@@ -47,11 +48,6 @@ Toolkit.run( async ( tools ) => {
                 resolve(request.responseText);
               }
             });
-            request.onreadystatechange = function() {
-              if (request.readyState === 4) {
-                resolve(request.response);
-              }
-            }
 
             request.open('POST', url, true);
 
