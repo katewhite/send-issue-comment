@@ -21,39 +21,38 @@ Toolkit.run( async ( tools ) => {
         tools.log('contains hs link');
         let pattern = /(?<url>https:\/\/secure.helpscout.net.+\/(?<id>.*)\?.*)/;
         let { groups: { url, id } } = body.match(pattern);
+        tools.log('URL and ID:');
+        tools.log(groups.url);
+        tools.log(groups.id);
+
+        // Get HS ticket threads
+        var getTicketThreads = new Promise( async( resolve, reject ) => {
+          try {
+            var request = new XMLHttpRequest();
+            var url = `https://api.helpscout.net/v2/conversations/${ groups.id }/threads`;
+
+            request.open('GET', url, true);
+
+            // Send request
+            request.send();
+
+            resolve();
+          }
+          catch( error ){
+            reject( error );
+          }
+        });
+
+        // Wait for completion
+        getTicketThreads.then(function(result) {
+          tools.log.success(
+            `Got threads for ticket '${ ticketNumber }'`
+          );
+          tools.log.success(result);
+        }, function(err) {
+          tools.exit.failure( err );
+        });
       }
-
-      tools.log('URL and ID:');
-      tools.log(url);
-      tools.log(id);
-
-      // Get HS ticket threads
-      var getTicketThreads = new Promise( async( resolve, reject ) => {
-        try {
-          var request = new XMLHttpRequest();
-          var url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
-
-          request.open('GET', url, true);
-
-          // Send request
-          request.send();
-
-          resolve();
-        }
-        catch( error ){
-          reject( error );
-        }
-      });
-
-      // Wait for completion
-      getTicketThreads.then(function(result) {
-        tools.log.success(
-          `Got threads for ticket '${ ticketNumber }'`
-        );
-        tools.log.success(result);
-      }, function(err) {
-        tools.exit.failure( err );
-      });
 
       // Send to Zapier
       var sendComment = new Promise( async( resolve, reject ) => {
