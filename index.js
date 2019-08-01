@@ -75,7 +75,6 @@ Toolkit.run( async ( tools ) => {
               request.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
                   let response = JSON.parse(this.responseText);
-                  tools.log(response);
                   resolve(response);
                 }
               });
@@ -93,10 +92,7 @@ Toolkit.run( async ( tools ) => {
 
           // Wait for completion
           getTicketThreads.then(function(result) {
-            tools.log(
-              `Got threads for ticket '${ id }'`
-            );
-            tools.log(result);
+            tools.log(`Got threads for ticket '${ id }'`);
 
             // Build the threads HTML
             threadsContent = '';
@@ -108,7 +104,6 @@ Toolkit.run( async ( tools ) => {
               '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
               '<p>' + threads[j].body + '</p>';
             }
-            tools.log(threadsContent);
 
             // Send to Zapier
             let sendComment = new Promise( async( resolve, reject ) => {
@@ -150,9 +145,6 @@ Toolkit.run( async ( tools ) => {
           }, function(err) {
             tools.exit.failure( err );
           });
-        // }, function(err) {
-        //   tools.exit.failure( err );
-        // });
       }
     } else {
       let labelString = labels.toString();
