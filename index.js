@@ -4,13 +4,6 @@ const { Toolkit } = require( 'actions-toolkit' );
 Toolkit.run( async ( tools ) => {
   try {
     const { comment, issue, sender } = tools.context.payload;
-    tools.log('comment:');
-    tools.log(comment);
-    tools.log('ISSUE:');
-    tools.log(issue);
-    tools.log('SENDER:');
-    tools.log(sender);
-
     const { body, html_url, created_at } = comment;
     const { title } = issue;
     const { login } = sender;
@@ -42,12 +35,15 @@ Toolkit.run( async ( tools ) => {
     });
 
     // Wait for completion
-    await Promise.all( sendComment ).catch( error => tools.exit.failure( error ) );
+    sendComment.then(function(result) {
+      tools.log.success(
+        `Sent new issue comment for ${ issue.title } to Zapier.`
+      );
+      tools.log.success(result);
+    }, function(err) {
+      tools.exit.failure( err );
+    });
 
-    // Log success message
-    tools.log.success(
-      `Sent new issue comment for ${ issue.title } to Zapier.`
-    );
 
     // if( action !== 'assigned' ){
     //   tools.exit.neutral( `Event ${ action } is not supported by this action.` )
