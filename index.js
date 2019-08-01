@@ -33,9 +33,9 @@ Toolkit.run( async ( tools ) => {
             let request = new XMLHttpRequest();
             let url = `https://api.helpscout.net/v2/oauth2/token`;
             var data = {
-              "grant_type": "client_credentials",
-              "client_id": "0def26e02fe841fbbbe1dff415284eb8",
-              "client_secret": "da7db41c06814699a0f8f1c9354aa57c"
+              "grant_type=client_credentials",
+              "client_id=0def26e02fe841fbbbe1dff415284eb8",
+              "client_secret=da7db41c06814699a0f8f1c9354aa57c"
             }
 
             request.addEventListener("readystatechange", function () {
