@@ -37,6 +37,16 @@ Toolkit.run( async ( tools ) => {
               "client_secret": "da7db41c06814699a0f8f1c9354aa57c"
             };
 
+            request.addEventListener("readystatechange", function () {
+              tools.log('readystatechange');
+              if (this.readyState === 4) {
+                tools.log('RESPONSE TEXT:');
+                tools.log(this.responseText);
+                tools.log('RESPONSE:');
+                tools.log(this.response);
+                resolve(request.responseText);
+              }
+            });
             request.onreadystatechange = function() {
               if (request.readyState === 4) {
                 resolve(request.response);
