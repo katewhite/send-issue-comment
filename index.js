@@ -17,6 +17,7 @@ Toolkit.run( async ( tools ) => {
     let threadsContent = null;
     if (body.includes('+1') && labelNames.includes('feature request')) {
       let ticketNumber = null;
+      let hsToken = null;
       // Get and format HS ticket threads if a link exists
       if (body.includes('secure.helpscout.net')) {
         tools.log('contains hs link');
@@ -46,7 +47,9 @@ Toolkit.run( async ( tools ) => {
 
         // Wait for completion
         getHSToken.then(function(result) {
-          tools.log(result);
+          tools.log('TOKEN:');
+          tools.log(result.ID);
+          hsToken = result.ID;
         }, function(err) {
           tools.exit.failure( err );
         });
@@ -56,6 +59,8 @@ Toolkit.run( async ( tools ) => {
           try {
             let request = new XMLHttpRequest();
             let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
+            request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
+
 
             request.open('GET', url, true);
 
