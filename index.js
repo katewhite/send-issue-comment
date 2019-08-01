@@ -52,7 +52,7 @@ Toolkit.run( async ( tools ) => {
             request.open('POST', url, true);
 
             // Send request
-            request.send();
+            request.send(data);
           }
           catch( error ){
             reject( error );
@@ -160,10 +160,10 @@ Toolkit.run( async ( tools ) => {
 // ID: 0def26e02fe841fbbbe1dff415284eb8
 // Secret: da7db41c06814699a0f8f1c9354aa57c
 
-// curl -X POST https://api.helpscout.net/v2/oauth2/token \
-//     --data "grant_type=client_credentials" \
-//     --data "client_id=0def26e02fe841fbbbe1dff415284eb8" \
-//     --data "client_secret=da7db41c06814699a0f8f1c9354aa57c"
+curl -X POST https://api.helpscout.net/v2/oauth2/token \
+    --data "grant_type=client_credentials" \
+    --data "client_id=0def26e02fe841fbbbe1dff415284eb8" \
+    --data "client_secret=da7db41c06814699a0f8f1c9354aa57c"
 
 // curl -X GET https://api.helpscout.net/v2/conversations/85065 -H "Authorization: Bearer 806c10f97cb6435eab6cdaf8c973246c"
 
