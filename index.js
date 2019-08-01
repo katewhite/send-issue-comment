@@ -3,13 +3,51 @@ const { Toolkit } = require( 'actions-toolkit' );
 
 Toolkit.run( async ( tools ) => {
   try {
-    const { action, issue } = tools.context.payload;
-    tools.log('PAYLOAD:');
-    tools.log(tools.context.payload);
+    const { comment, issue, sender } = tools.context.payload;
+    tools.log('comment:');
+    tools.log(comment);
     tools.log('ISSUE:');
     tools.log(issue);
+    tools.log('SENDER:');
+    tools.log(sender);
 
+    const { body, html_url, created_at } = comment;
+    const { title } = issue;
+    const { login } = sender;
 
+    
+
+    var sendComment = new Promise( async( resolve, reject ) => {
+      try {
+        var request = new XMLHttpRequest();
+
+        request.open('POST', 'https://hooks.zapier.com/hooks/catch/3679287/oon4u7z/', true);
+
+        const data = {
+          body,
+          html_url,
+          created_at,
+          title,
+          login
+        }
+
+        // Send request
+        request.send(data);
+
+        resolve();
+      }
+      catch( error ){
+        reject( error );
+      }
+    });
+
+    // Wait for completion
+    await Promise.all( sendcomment ).catch( error => tools.exit.failure( error ) );
+
+    // Log success message
+    tools.log.success(
+      `Sent new issue comment for ${ issue.title } to Zapier.`
+    );
 
     // if( action !== 'assigned' ){
     //   tools.exit.neutral( `Event ${ action } is not supported by this action.` )
@@ -115,25 +153,24 @@ Toolkit.run( async ( tools ) => {
 
     // // Move the cards to the columns
     // const moveCards = columns.map( column => {
-    //   return new Promise( async( resolve, reject ) => {
-    //     try {
-    //       await tools.github.graphql({
-    //         query: `mutation {
-    //           moveProjectCard( input: { cardId: "${ cardId }", columnId: "${ column.id }" }) {
-    //             clientMutationId
-    //           }
-    //         }`,
-    //         headers: {
-    //           authorization: `token ${ secret }`
+    // return new Promise( async( resolve, reject ) => {
+    //   try {
+    //     await tools.github.graphql({
+    //       query: `mutation {
+    //         moveProjectCard( input: { cardId: "${ cardId }", columnId: "${ column.id }" }) {
+    //           clientMutationId
     //         }
-    //       });
+    //       }`,
+    //       headers: {
+    //         authorization: `token ${ secret }`
+    //       }
+    //     });
 
-    //       resolve();
-    //     }
-    //     catch( error ){
-    //       reject( error );
-    //     }
-    //   })
+    //     resolve();
+    //   }
+    //   catch( error ){
+    //     reject( error );
+    //   }
     // });
 
     // // Wait for completion
