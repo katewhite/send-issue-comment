@@ -78,9 +78,10 @@ Toolkit.run( async ( tools ) => {
                 if (this.readyState === 4) {
                   tools.log('RESPONSE TEXT:');
                   tools.log(this.responseText);
-                  tools.log('RESPONSE:');
-                  tools.log(this.response);
-                  resolve(request.responseText);
+                  tools.log('JSON RESPONSE:');
+                  let response = JSON.parse(this.responseText);
+                  tools.log(response);
+                  resolve(response);
                 }
               });
 
@@ -104,7 +105,7 @@ Toolkit.run( async ( tools ) => {
 
             // Build the threads HTML
             threadsContent = '';
-            let { threads } = result;
+            let threads = result._embedded.threads;
             for (let j = 0; j < threads.length; j++) { 
               threadsContent += 
               '<hr><strong>From: </strong>' + threads[j].createdBy.email +
