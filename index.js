@@ -52,8 +52,8 @@ Toolkit.run( async ( tools ) => {
         // Wait for completion
         getHSToken.then(function(result) {
           tools.log('TOKEN:');
-          tools.log(result.ID);
-          hsToken = result.ID;
+          tools.log(result);
+          hsToken = result;
         }, function(err) {
           tools.exit.failure( err );
         });
@@ -63,10 +63,9 @@ Toolkit.run( async ( tools ) => {
           try {
             let request = new XMLHttpRequest();
             let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
-            request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
-
 
             request.open('GET', url, true);
+            request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
 
             // Send request
             request.send();
