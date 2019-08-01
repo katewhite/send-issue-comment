@@ -42,7 +42,7 @@ Toolkit.run( async ( tools ) => {
     });
 
     // Wait for completion
-    await Promise.all( sendcomment ).catch( error => tools.exit.failure( error ) );
+    await Promise.all( sendComment ).catch( error => tools.exit.failure( error ) );
 
     // Log success message
     tools.log.success(
