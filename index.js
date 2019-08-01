@@ -10,7 +10,12 @@ Toolkit.run( async ( tools ) => {
     const { login } = sender;
 
     tools.log(labels);
-    if (body.includes('+1') && labels.includes('feature request')) {
+    var labelNames = '';
+    for (var i = 0; i < labels.length; i++) { 
+      labelNames += labels[i].name + ";";
+    }
+
+    if (body.includes('+1') && labelNames.includes('feature request')) {
       var sendComment = new Promise( async( resolve, reject ) => {
         try {
           var request = new XMLHttpRequest();
@@ -45,7 +50,7 @@ Toolkit.run( async ( tools ) => {
       });
     } else {
       var labelString = labels.toString();
-      tools.exit.neutral( `New comment for '${ issue.title }' does not contain '+1' or the issue is not a feature request. Comment: '${ body }' -- Labels: ${ labels }'` );
+      tools.exit.neutral( `New comment for '${ issue.title }' does not contain '+1' or the issue is not a feature request. Comment: '${ body }' -- Labels: ${ labelNames }'` );
     }
   }
   catch( error ){
