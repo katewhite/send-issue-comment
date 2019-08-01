@@ -26,42 +26,53 @@ Toolkit.run( async ( tools ) => {
         let { groups: { url, id } } = body.match(pattern);
 
         // Get HS access token
-          let getHSToken = new Promise( async( resolve, reject ) => {
-            try {
-              let request = new XMLHttpRequest();
-              let url = `https://api.helpscout.net/v2/oauth2/token`;
-              var data = new FormData();
-              data.append("grant_type", "client_credentials");
-              data.append("client_id", "0def26e02fe841fbbbe1dff415284eb8");
-              data.append("client_secret", "da7db41c06814699a0f8f1c9354aa57c");
+        axios.post('https://api.helpscout.net/v2/oauth2/token', {
+          grant_type: "client_credentials", 
+          client_id: "0def26e02fe841fbbbe1dff415284eb8"
+          client_secret: "da7db41c06814699a0f8f1c9354aa57c"
+        })
+        .then(function (response) {
+          tools.log(response);
+        })
+        .catch(function (error) {
+          tools.log(error);
+        });
+          // let getHSToken = new Promise( async( resolve, reject ) => {
+          //   try {
+          //     let request = new XMLHttpRequest();
+          //     let url = `https://api.helpscout.net/v2/oauth2/token`;
+          //     var data = new FormData();
+          //     data.append("grant_type", "client_credentials");
+          //     data.append("client_id", "0def26e02fe841fbbbe1dff415284eb8");
+          //     data.append("client_secret", "da7db41c06814699a0f8f1c9354aa57c");
 
-              request.addEventListener("readystatechange", function () {
-                tools.log('readystatechange');
-                tools.log(this.readyState);
-                if (this.readyState === 4) {
-                  tools.log('RESPONSE TEXT:');
-                  tools.log(this.responseText);
-                  resolve(request.responseText);
-                }
-              });
+          //     request.addEventListener("readystatechange", function () {
+          //       tools.log('readystatechange');
+          //       tools.log(this.readyState);
+          //       if (this.readyState === 4) {
+          //         tools.log('RESPONSE TEXT:');
+          //         tools.log(this.responseText);
+          //         resolve(request.responseText);
+          //       }
+          //     });
 
-              request.open('POST', url, true);
-              request.setRequestHeader('Content-type', 'multipart/form-data');
+          //     request.open('POST', url, true);
+          //     request.setRequestHeader('Content-type', 'multipart/form-data');
 
-              // Send request
-              request.send(data);
-            }
-            catch( error ){
-              reject( error );
-            }
-          });
+          //     // Send request
+          //     request.send(data);
+          //   }
+          //   catch( error ){
+          //     reject( error );
+          //   }
+          // });
 
-          // Wait for completion
-          getHSToken.then(function(result) {
-            tools.log('TOKEN:');
-            tools.log(result);
-            hsToken = result;
-          });
+          // // Wait for completion
+          // getHSToken.then(function(result) {
+          //   tools.log('TOKEN:');
+          //   tools.log(result);
+          //   hsToken = result;
+          // });
 
           // Get HS ticket threads
           let getTicketThreads = new Promise( async( resolve, reject ) => {
