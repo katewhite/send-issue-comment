@@ -37,12 +37,16 @@ Toolkit.run( async ( tools ) => {
               "client_secret": "da7db41c06814699a0f8f1c9354aa57c"
             };
 
+            request.onreadystatechange = function() {
+              if (request.readyState === 4) {
+                resolve(request.response);
+              }
+            }
+
             request.open('POST', url, true);
 
             // Send request
             request.send(JSON.stringify(data));
-
-            resolve();
           }
           catch( error ){
             reject( error );
