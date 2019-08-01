@@ -73,12 +73,7 @@ Toolkit.run( async ( tools ) => {
               let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
 
               request.addEventListener("readystatechange", function () {
-                tools.log('readystatechange');
-                tools.log(this.readyState);
                 if (this.readyState === 4) {
-                  tools.log('RESPONSE TEXT:');
-                  tools.log(this.responseText);
-                  tools.log('JSON RESPONSE:');
                   let response = JSON.parse(this.responseText);
                   tools.log(response);
                   resolve(response);
@@ -106,9 +101,11 @@ Toolkit.run( async ( tools ) => {
             // Build the threads HTML
             threadsContent = '';
             let threads = result._embedded.threads;
+            let customerName = `${ result._embedded.threads[0].customer.first } ${ result._embedded.threads[0].customer.last }`;
+            let customerEmail = result._embedded.threads[0].customer.email;
             for (let j = 0; j < threads.length; j++) { 
               threadsContent += 
-              '<hr><strong>From: </strong>' + threads[j].createdBy.email +
+              '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
               '<p>' + threads[j].body + '</p>';
             }
             tools.log(threadsContent);
@@ -126,7 +123,9 @@ Toolkit.run( async ( tools ) => {
                   created_at,
                   title,
                   login, 
-                  threadsContent
+                  threadsContent,
+                  customerName,
+                  customerEmail
                 }
 
                 // Send request
