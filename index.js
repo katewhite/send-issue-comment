@@ -52,7 +52,7 @@ Toolkit.run( async ( tools ) => {
             request.open('POST', url, true);
 
             // Send request
-            request.send(data);
+            request.send(JSON.stringify(data));
           }
           catch( error ){
             reject( error );
@@ -64,49 +64,61 @@ Toolkit.run( async ( tools ) => {
           tools.log('TOKEN:');
           tools.log(result);
           hsToken = result;
+
+          // Get HS ticket threads
+          let getTicketThreads = new Promise( async( resolve, reject ) => {
+            try {
+              tools.log('1111111111111');
+              let request = new XMLHttpRequest();
+              let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
+
+              request.addEventListener("readystatechange", function () {
+                tools.log('readystatechange');
+                tools.log(this.readyState);
+                if (this.readyState === 4) {
+                  tools.log('RESPONSE TEXT:');
+                  tools.log(this.responseText);
+                  tools.log('RESPONSE:');
+                  tools.log(this.response);
+                  resolve(request.responseText);
+                }
+              });
+
+              request.open('GET', url, true);
+              request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
+
+              // Send request
+              request.send();
+            }
+            catch( error ){
+              reject( error );
+            }
+          });
+
+          // Wait for completion
+          getTicketThreads.then(function(result) {
+            tools.log(
+              `Got threads for ticket '${ id }'`
+            );
+            tools.log(result);
+
+            // Build the threads HTML
+            threadsContent = '';
+            let { threads } = result;
+            for (let j = 0; j < threads.length; j++) { 
+              threadsContent += 
+              '<hr><strong>From: </strong>' + threads[j].createdBy.email +
+              '<p>' + threads[j].body + '</p>';
+            }
+
+          }, function(err) {
+            tools.exit.failure( err );
+          });
         }, function(err) {
           tools.exit.failure( err );
         });
 
-        // // Get HS ticket threads
-        // let getTicketThreads = new Promise( async( resolve, reject ) => {
-        //   try {
-        //     tools.log('1111111111111');
-        //     let request = new XMLHttpRequest();
-        //     let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
-
-        //     request.open('GET', url, true);
-        //     request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
-
-        //     // Send request
-        //     request.send();
-
-        //     resolve();
-        //   }
-        //   catch( error ){
-        //     reject( error );
-        //   }
-        // });
-
-        // // Wait for completion
-        // getTicketThreads.then(function(result) {
-        //   tools.log(
-        //     `Got threads for ticket '${ id }'`
-        //   );
-        //   tools.log(result);
-
-        //   // Build the threads HTML
-        //   threadsContent = '';
-        //   let { threads } = result;
-        //   for (let j = 0; j < threads.length; j++) { 
-        //     threadsContent += 
-        //     '<hr><strong>From: </strong>' + threads[j].createdBy.email +
-        //     '<p>' + threads[j].body + '</p>';
-        //   }
-
-        // }, function(err) {
-        //   tools.exit.failure( err );
-        // });
+        
       }
 
       // Send to Zapier
