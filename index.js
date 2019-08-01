@@ -13,13 +13,15 @@ Toolkit.run( async ( tools ) => {
     for (let i = 0; i < labels.length; i++) { 
       labelNames += labels[i].name + ";";
     }
-
+    tools.log('111111111111');
     let threadsContent = null;
     if (body.includes('+1') && labelNames.includes('feature request')) {
+      tools.log('222222222222');
       let ticketNumber = null;
       let hsToken = null;
       // Get and format HS ticket threads if a link exists
       if (body.includes('secure.helpscout.net')) {
+        tools.log('33333333333333');
         tools.log('contains hs link');
         let pattern = /(?<url>https:\/\/secure.helpscout.net\/conversation\/(?<id>.*)\/.*)/;
         let { groups: { url, id } } = body.match(pattern);
@@ -32,16 +34,16 @@ Toolkit.run( async ( tools ) => {
           try {
             let request = new XMLHttpRequest();
             let url = `https://api.helpscout.net/v2/oauth2/token`;
-            let params = {
-              "grant_type":"client_credentials",
-              "client_id": "0def26e02fe841fbbbe1dff415284eb8",
-              "client_secret": "da7db41c06814699a0f8f1c9354aa57c"
-            }
+            var data = new FormData();
+            data.append("grant_type", "client_credentials");
+            data.append("client_id", "0def26e02fe841fbbbe1dff415284eb8");
+            data.append("client_secret", "da7db41c06814699a0f8f1c9354aa57c");
 
             request.open('POST', url, true);
 
             // Send request
-            request.send(JSON.stringify(params));
+            tools.log()
+            request.send(data);
 
             resolve();
           }
@@ -134,6 +136,7 @@ Toolkit.run( async ( tools ) => {
         tools.exit.failure( err );
       });
     } else {
+      tools.log('444444444444');
       let labelString = labels.toString();
       tools.exit.neutral( `New comment for '${ issue.title }' does not contain '+1' or the issue is not a feature request. Comment: '${ body }' -- Labels: ${ labelNames }'` );
     }
@@ -148,14 +151,14 @@ Toolkit.run( async ( tools ) => {
 
 
 
-ID: 0def26e02fe841fbbbe1dff415284eb8
-Secret: da7db41c06814699a0f8f1c9354aa57c
+// ID: 0def26e02fe841fbbbe1dff415284eb8
+// Secret: da7db41c06814699a0f8f1c9354aa57c
 
-curl -X POST https://api.helpscout.net/v2/oauth2/token \
-    --data "grant_type=client_credentials" \
-    --data "client_id=0def26e02fe841fbbbe1dff415284eb8" \
-    --data "client_secret=da7db41c06814699a0f8f1c9354aa57c"
+// curl -X POST https://api.helpscout.net/v2/oauth2/token \
+//     --data "grant_type=client_credentials" \
+//     --data "client_id=0def26e02fe841fbbbe1dff415284eb8" \
+//     --data "client_secret=da7db41c06814699a0f8f1c9354aa57c"
 
-curl -X GET https://api.helpscout.net/v2/conversations/85065 -H "Authorization: Bearer 806c10f97cb6435eab6cdaf8c973246c"
+// curl -X GET https://api.helpscout.net/v2/conversations/85065 -H "Authorization: Bearer 806c10f97cb6435eab6cdaf8c973246c"
 
 
