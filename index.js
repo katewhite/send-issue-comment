@@ -1,4 +1,5 @@
 const { Toolkit } = require( 'actions-toolkit' );
+const { XMLHttpRequest } = require( 'xmlhttprequest' );
 
 
 Toolkit.run( async ( tools ) => {

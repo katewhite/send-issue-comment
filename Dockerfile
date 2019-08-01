@@ -26,6 +26,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm ci
+RUN npm install xmlhttprequest
 
 # Copy the rest of your action's code
 COPY . .
