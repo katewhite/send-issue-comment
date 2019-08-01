@@ -19,8 +19,8 @@ Toolkit.run( async ( tools ) => {
       // Get and format HS ticket threads if a link exists
       if (body.includes('secure.helpscout.net')) {
         tools.log('contains hs link');
-        let pattern = /(?<url>https:\/\/secure.helpscout.net.+\/(?<id>.*)\?)/
-        let { groups: { url, id } } = string.match(pattern);
+        let pattern = /(?<url>https:\/\/secure.helpscout.net.+\/(?<id>.*)\?.*)/;
+        let { groups: { url, id } } = body.match(pattern);
       }
 
       tools.log('URL and ID:');
