@@ -113,6 +113,41 @@ Toolkit.run( async ( tools ) => {
             }
             tools.log(threadsContent);
 
+            // Send to Zapier
+            let sendComment = new Promise( async( resolve, reject ) => {
+              try {
+                let request = new XMLHttpRequest();
+
+                request.open('POST', 'https://hooks.zapier.com/hooks/catch/3679287/oon4u7z/', true);
+
+                const data = {
+                  body,
+                  html_url,
+                  created_at,
+                  title,
+                  login, 
+                  threadsContent
+                }
+
+                // Send request
+                request.send(JSON.stringify(data));
+
+                resolve();
+              }
+              catch( error ){
+                reject( error );
+              }
+            });
+
+            // Wait for completion
+            sendComment.then(function(result) {
+              tools.log.success(
+                `Sent new issue comment for '${ issue.title }' to Zapier.`
+              );
+            }, function(err) {
+              tools.exit.failure( err );
+            });
+
           }, function(err) {
             tools.exit.failure( err );
           });
@@ -120,39 +155,6 @@ Toolkit.run( async ( tools ) => {
         //   tools.exit.failure( err );
         // });
       }
-      // Send to Zapier
-      // let sendComment = new Promise( async( resolve, reject ) => {
-      //   try {
-      //     let request = new XMLHttpRequest();
-
-      //     request.open('POST', 'https://hooks.zapier.com/hooks/catch/3679287/oon4u7z/', true);
-
-      //     const data = {
-      //       body,
-      //       html_url,
-      //       created_at,
-      //       title,
-      //       login
-      //     }
-
-      //     // Send request
-      //     request.send(JSON.stringify(data));
-
-      //     resolve();
-      //   }
-      //   catch( error ){
-      //     reject( error );
-      //   }
-      // });
-
-      // // Wait for completion
-      // sendComment.then(function(result) {
-      //   tools.log.success(
-      //     `Sent new issue comment for '${ issue.title }' to Zapier.`
-      //   );
-      // }, function(err) {
-      //   tools.exit.failure( err );
-      // });
     } else {
       let labelString = labels.toString();
       tools.exit.neutral( `New comment for '${ issue.title }' does not contain '+1' or the issue is not a feature request. Comment: '${ body }' -- Labels: ${ labelNames }'` );
