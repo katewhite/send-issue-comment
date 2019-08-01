@@ -26,7 +26,7 @@ Toolkit.run( async ( tools ) => {
         }
 
         // Send request
-        request.send(data);
+        request.send(JSON.stringify(data));
 
         resolve();
       }
