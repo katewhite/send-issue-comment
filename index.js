@@ -4,6 +4,7 @@ const { Toolkit } = require( 'actions-toolkit' );
 Toolkit.run( async ( tools ) => {
   try {
     const { action, issue } = tools.context.payload;
+    tools.log(issue);
     if( action !== 'assigned' ){
       tools.exit.neutral( `Event ${ action } is not supported by this action.` )
     }
