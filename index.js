@@ -45,7 +45,7 @@ Toolkit.run( async ( tools ) => {
       });
     } else {
       var labelString = labels.toString();
-      tools.exit.neutral( `New comment for '${ issue.title }' does not contain '+1' or the issue is not a feature request. Comment: '${ body }' -- Labels: ${ labelString }'` );
+      tools.exit.neutral( `New comment for '${ issue.title }' does not contain '+1' or the issue is not a feature request. Comment: '${ body }' -- Labels: ${ labels }'` );
     }
 
 
