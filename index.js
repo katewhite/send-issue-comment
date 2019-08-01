@@ -14,15 +14,16 @@ Toolkit.run( async ( tools ) => {
       labelNames += labels[i].name + ";";
     }
 
-    let ticketNumber = null;
-    // Get and format HS ticket threads if a link exists
-    if (body.includes('secure.helpscout.com')) {
-      ticketNumber = body.match( .+\/(.*)\? )[0];
-    }
-
-    tools.log(ticketNumber);
-
     if (body.includes('+1') && labelNames.includes('feature request')) {
+      let ticketNumber = null;
+      // Get and format HS ticket threads if a link exists
+      if (body.includes('secure.helpscout.com')) {
+        ticketNumber = body.match( ".+\/(.*)\?" )[0];
+      }
+
+      tools.log(ticketNumber);
+
+      // Send to Zapier
       var sendComment = new Promise( async( resolve, reject ) => {
         try {
           var request = new XMLHttpRequest();
