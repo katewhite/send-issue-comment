@@ -85,7 +85,7 @@ Toolkit.run( async ( tools ) => {
               });
 
               request.open('GET', url, true);
-              request.setRequestHeader(`Authorization: Bearer b43fe5f8441b4deb969422a827c1822b`);
+              request.setRequestHeader("Authorization", "Bearer b43fe5f8441b4deb969422a827c1822b");
 
               // Send request
               request.send();
