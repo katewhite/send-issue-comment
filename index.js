@@ -1,6 +1,6 @@
 const { Toolkit } = require( 'actions-toolkit' );
 const { XMLHttpRequest } = require( 'xmlhttprequest' );
-const { FormData } = require('form-data');
+const FormData = require('form-data');
 
 
 Toolkit.run( async ( tools ) => {
