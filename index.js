@@ -47,7 +47,7 @@ Toolkit.run( async ( tools ) => {
               });
 
               request.open('POST', url, true);
-              http.setRequestHeader('Content-type', 'application/json')
+              request.setRequestHeader('Content-type', 'application/json')
 
               // Send request
               request.send(JSON.stringify(data));
