@@ -19,11 +19,41 @@ Toolkit.run( async ( tools ) => {
       // Get and format HS ticket threads if a link exists
       if (body.includes('secure.helpscout.net')) {
         tools.log('contains hs link');
-        ticketNumber = body.match( ".+\/(.*)\?" )[0];
+        let pattern = /(?<url>https:\/\/secure.helpscout.net.+\/(?<id>.*)\?)/
+        let { groups: { url, id } } = string.match(pattern);
       }
 
-      tools.log('TICKET:');
-      tools.log(ticketNumber);
+      tools.log('URL and ID:');
+      tools.log(url);
+      tools.log(id);
+
+      // Get HS ticket threads
+      var getTicketThreads = new Promise( async( resolve, reject ) => {
+        try {
+          var request = new XMLHttpRequest();
+          var url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
+
+          request.open('GET', url, true);
+
+          // Send request
+          request.send();
+
+          resolve();
+        }
+        catch( error ){
+          reject( error );
+        }
+      });
+
+      // Wait for completion
+      getTicketThreads.then(function(result) {
+        tools.log.success(
+          `Got threads for ticket '${ ticketNumber }'`
+        );
+        tools.log.success(result);
+      }, function(err) {
+        tools.exit.failure( err );
+      });
 
       // Send to Zapier
       var sendComment = new Promise( async( resolve, reject ) => {
