@@ -4,8 +4,10 @@ const { Toolkit } = require( 'actions-toolkit' );
 Toolkit.run( async ( tools ) => {
   try {
     const { action, issue } = tools.context.payload;
-    tools.log('PAYLOAD: ' + tools.context.payload);
-    tools.log('ISSUE: ' + issue);
+    tools.log('PAYLOAD:');
+    tools.log(tools.context.payload);
+    tools.log('ISSUE:');
+    tools.log(issue);
 
 
 
