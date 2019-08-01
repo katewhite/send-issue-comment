@@ -68,44 +68,45 @@ Toolkit.run( async ( tools ) => {
           tools.exit.failure( err );
         });
 
-        // Get HS ticket threads
-        let getTicketThreads = new Promise( async( resolve, reject ) => {
-          try {
-            let request = new XMLHttpRequest();
-            let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
+        // // Get HS ticket threads
+        // let getTicketThreads = new Promise( async( resolve, reject ) => {
+        //   try {
+        //     tools.log('1111111111111');
+        //     let request = new XMLHttpRequest();
+        //     let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
 
-            request.open('GET', url, true);
-            request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
+        //     request.open('GET', url, true);
+        //     request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
 
-            // Send request
-            request.send();
+        //     // Send request
+        //     request.send();
 
-            resolve();
-          }
-          catch( error ){
-            reject( error );
-          }
-        });
+        //     resolve();
+        //   }
+        //   catch( error ){
+        //     reject( error );
+        //   }
+        // });
 
-        // Wait for completion
-        getTicketThreads.then(function(result) {
-          tools.log(
-            `Got threads for ticket '${ id }'`
-          );
-          tools.log(result);
+        // // Wait for completion
+        // getTicketThreads.then(function(result) {
+        //   tools.log(
+        //     `Got threads for ticket '${ id }'`
+        //   );
+        //   tools.log(result);
 
-          // Build the threads HTML
-          threadsContent = '';
-          let { threads } = result;
-          for (let j = 0; j < threads.length; j++) { 
-            threadsContent += 
-            '<hr><strong>From: </strong>' + threads[j].createdBy.email +
-            '<p>' + threads[j].body + '</p>';
-          }
+        //   // Build the threads HTML
+        //   threadsContent = '';
+        //   let { threads } = result;
+        //   for (let j = 0; j < threads.length; j++) { 
+        //     threadsContent += 
+        //     '<hr><strong>From: </strong>' + threads[j].createdBy.email +
+        //     '<p>' + threads[j].body + '</p>';
+        //   }
 
-        }, function(err) {
-          tools.exit.failure( err );
-        });
+        // }, function(err) {
+        //   tools.exit.failure( err );
+        // });
       }
 
       // Send to Zapier
