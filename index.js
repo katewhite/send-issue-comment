@@ -22,8 +22,8 @@ Toolkit.run( async ( tools ) => {
         let pattern = /(?<url>https:\/\/secure.helpscout.net.+\/(?<id>.*)\?.*)/;
         let { groups: { url, id } } = body.match(pattern);
         tools.log('URL and ID:');
-        tools.log(groups.url);
-        tools.log(groups.id);
+        tools.log(url);
+        tools.log(id);
 
         // Get HS ticket threads
         var getTicketThreads = new Promise( async( resolve, reject ) => {
