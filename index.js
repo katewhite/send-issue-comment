@@ -28,99 +28,97 @@ Toolkit.run( async ( tools ) => {
         tools.log(id);
 
         // Get HS access token
-        let getHSToken = new Promise( async( resolve, reject ) => {
-          try {
-            let request = new XMLHttpRequest();
-            let url = `https://api.helpscout.net/v2/oauth2/token`;
-            var data = new FormData();
-            data.append("grant_type", "client_credentials");
-            data.append("client_id", "0def26e02fe841fbbbe1dff415284eb8");
-            data.append("client_secret", "da7db41c06814699a0f8f1c9354aa57c");
+        // let getHSToken = new Promise( async( resolve, reject ) => {
+        //   try {
+        //     let request = new XMLHttpRequest();
+        //     let url = `https://api.helpscout.net/v2/oauth2/token`;
+        //     var data = {
+        //     data.append("grant_type", "client_credentials");
+        //     data.append("client_id", "0def26e02fe841fbbbe1dff415284eb8");
+        //     data.append("client_secret", "da7db41c06814699a0f8f1c9354aa57c");
 
-            request.addEventListener("readystatechange", function () {
-              tools.log('readystatechange');
-              tools.log(this.readyState);
-              if (this.readyState === 4) {
-                tools.log('RESPONSE TEXT:');
-                tools.log(this.responseText);
-                tools.log('RESPONSE:');
-                tools.log(this.response);
-                resolve(request.responseText);
-              }
-            });
+        //     request.addEventListener("readystatechange", function () {
+        //       tools.log('readystatechange');
+        //       tools.log(this.readyState);
+        //       if (this.readyState === 4) {
+        //         tools.log('RESPONSE TEXT:');
+        //         tools.log(this.responseText);
+        //         tools.log('RESPONSE:');
+        //         tools.log(this.response);
+        //         resolve(request.responseText);
+        //       }
+        //     });
 
-            request.open('POST', url, true);
+        //     request.open('POST', url, true);
 
-            // Send request
-            request.send(JSON.stringify(data));
-          }
-          catch( error ){
-            reject( error );
-          }
-        });
+        //     // Send request
+        //     request.send(JSON.stringify(data));
+        //   }
+        //   catch( error ){
+        //     reject( error );
+        //   }
+        // });
 
-        // Wait for completion
-        getHSToken.then(function(result) {
-          tools.log('TOKEN:');
-          tools.log(result);
-          hsToken = result;
+        // // Wait for completion
+        // getHSToken.then(function(result) {
+        //   tools.log('TOKEN:');
+        //   tools.log(result);
+        //   hsToken = result;
+        // }
 
-          // // Get HS ticket threads
-          // let getTicketThreads = new Promise( async( resolve, reject ) => {
-          //   try {
-          //     tools.log('1111111111111');
-          //     let request = new XMLHttpRequest();
-          //     let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
+          // Get HS ticket threads
+          let getTicketThreads = new Promise( async( resolve, reject ) => {
+            try {
+              let request = new XMLHttpRequest();
+              let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
 
-          //     request.addEventListener("readystatechange", function () {
-          //       tools.log('readystatechange');
-          //       tools.log(this.readyState);
-          //       if (this.readyState === 4) {
-          //         tools.log('RESPONSE TEXT:');
-          //         tools.log(this.responseText);
-          //         tools.log('RESPONSE:');
-          //         tools.log(this.response);
-          //         resolve(request.responseText);
-          //       }
-          //     });
+              request.addEventListener("readystatechange", function () {
+                tools.log('readystatechange');
+                tools.log(this.readyState);
+                if (this.readyState === 4) {
+                  tools.log('RESPONSE TEXT:');
+                  tools.log(this.responseText);
+                  tools.log('RESPONSE:');
+                  tools.log(this.response);
+                  resolve(request.responseText);
+                }
+              });
 
-          //     request.open('GET', url, true);
-          //     request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
+              request.open('GET', url, true);
+              request.setRequestHeader(`Authorization: Bearer b43fe5f8441b4deb969422a827c1822b`);
 
-          //     // Send request
-          //     request.send();
-          //   }
-          //   catch( error ){
-          //     reject( error );
-          //   }
-          // });
+              // Send request
+              request.send();
+            }
+            catch( error ){
+              reject( error );
+            }
+          });
 
-          // // Wait for completion
-          // getTicketThreads.then(function(result) {
-          //   tools.log(
-          //     `Got threads for ticket '${ id }'`
-          //   );
-          //   tools.log(result);
+          // Wait for completion
+          getTicketThreads.then(function(result) {
+            tools.log(
+              `Got threads for ticket '${ id }'`
+            );
+            tools.log(result);
 
-          //   // Build the threads HTML
-          //   threadsContent = '';
-          //   let { threads } = result;
-          //   for (let j = 0; j < threads.length; j++) { 
-          //     threadsContent += 
-          //     '<hr><strong>From: </strong>' + threads[j].createdBy.email +
-          //     '<p>' + threads[j].body + '</p>';
-          //   }
+            // Build the threads HTML
+            threadsContent = '';
+            let { threads } = result;
+            for (let j = 0; j < threads.length; j++) { 
+              threadsContent += 
+              '<hr><strong>From: </strong>' + threads[j].createdBy.email +
+              '<p>' + threads[j].body + '</p>';
+            }
+            tools.log(threadsContent);
 
-          // }, function(err) {
-          //   tools.exit.failure( err );
-          // });
-        }, function(err) {
-          tools.exit.failure( err );
-        });
-
-        
+          }, function(err) {
+            tools.exit.failure( err );
+          });
+        // }, function(err) {
+        //   tools.exit.failure( err );
+        // });
       }
-
       // Send to Zapier
       // let sendComment = new Promise( async( resolve, reject ) => {
       //   try {
