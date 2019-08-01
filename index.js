@@ -17,7 +17,8 @@ Toolkit.run( async ( tools ) => {
     if (body.includes('+1') && labelNames.includes('feature request')) {
       let ticketNumber = null;
       // Get and format HS ticket threads if a link exists
-      if (body.includes('secure.helpscout.com')) {
+      if (body.includes('secure.helpscout.net')) {
+        tools.log('contains hs link');
         ticketNumber = body.match( ".+\/(.*)\?" )[0];
       }
 
