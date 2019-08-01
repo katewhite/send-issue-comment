@@ -65,55 +65,55 @@ Toolkit.run( async ( tools ) => {
           tools.log(result);
           hsToken = result;
 
-          // Get HS ticket threads
-          let getTicketThreads = new Promise( async( resolve, reject ) => {
-            try {
-              tools.log('1111111111111');
-              let request = new XMLHttpRequest();
-              let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
+          // // Get HS ticket threads
+          // let getTicketThreads = new Promise( async( resolve, reject ) => {
+          //   try {
+          //     tools.log('1111111111111');
+          //     let request = new XMLHttpRequest();
+          //     let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
 
-              request.addEventListener("readystatechange", function () {
-                tools.log('readystatechange');
-                tools.log(this.readyState);
-                if (this.readyState === 4) {
-                  tools.log('RESPONSE TEXT:');
-                  tools.log(this.responseText);
-                  tools.log('RESPONSE:');
-                  tools.log(this.response);
-                  resolve(request.responseText);
-                }
-              });
+          //     request.addEventListener("readystatechange", function () {
+          //       tools.log('readystatechange');
+          //       tools.log(this.readyState);
+          //       if (this.readyState === 4) {
+          //         tools.log('RESPONSE TEXT:');
+          //         tools.log(this.responseText);
+          //         tools.log('RESPONSE:');
+          //         tools.log(this.response);
+          //         resolve(request.responseText);
+          //       }
+          //     });
 
-              request.open('GET', url, true);
-              request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
+          //     request.open('GET', url, true);
+          //     request.setRequestHeader(`Authorization: Bearer ${ hsToken }`);
 
-              // Send request
-              request.send();
-            }
-            catch( error ){
-              reject( error );
-            }
-          });
+          //     // Send request
+          //     request.send();
+          //   }
+          //   catch( error ){
+          //     reject( error );
+          //   }
+          // });
 
-          // Wait for completion
-          getTicketThreads.then(function(result) {
-            tools.log(
-              `Got threads for ticket '${ id }'`
-            );
-            tools.log(result);
+          // // Wait for completion
+          // getTicketThreads.then(function(result) {
+          //   tools.log(
+          //     `Got threads for ticket '${ id }'`
+          //   );
+          //   tools.log(result);
 
-            // Build the threads HTML
-            threadsContent = '';
-            let { threads } = result;
-            for (let j = 0; j < threads.length; j++) { 
-              threadsContent += 
-              '<hr><strong>From: </strong>' + threads[j].createdBy.email +
-              '<p>' + threads[j].body + '</p>';
-            }
+          //   // Build the threads HTML
+          //   threadsContent = '';
+          //   let { threads } = result;
+          //   for (let j = 0; j < threads.length; j++) { 
+          //     threadsContent += 
+          //     '<hr><strong>From: </strong>' + threads[j].createdBy.email +
+          //     '<p>' + threads[j].body + '</p>';
+          //   }
 
-          }, function(err) {
-            tools.exit.failure( err );
-          });
+          // }, function(err) {
+          //   tools.exit.failure( err );
+          // });
         }, function(err) {
           tools.exit.failure( err );
         });
@@ -122,38 +122,38 @@ Toolkit.run( async ( tools ) => {
       }
 
       // Send to Zapier
-      let sendComment = new Promise( async( resolve, reject ) => {
-        try {
-          let request = new XMLHttpRequest();
+      // let sendComment = new Promise( async( resolve, reject ) => {
+      //   try {
+      //     let request = new XMLHttpRequest();
 
-          request.open('POST', 'https://hooks.zapier.com/hooks/catch/3679287/oon4u7z/', true);
+      //     request.open('POST', 'https://hooks.zapier.com/hooks/catch/3679287/oon4u7z/', true);
 
-          const data = {
-            body,
-            html_url,
-            created_at,
-            title,
-            login
-          }
+      //     const data = {
+      //       body,
+      //       html_url,
+      //       created_at,
+      //       title,
+      //       login
+      //     }
 
-          // Send request
-          request.send(JSON.stringify(data));
+      //     // Send request
+      //     request.send(JSON.stringify(data));
 
-          resolve();
-        }
-        catch( error ){
-          reject( error );
-        }
-      });
+      //     resolve();
+      //   }
+      //   catch( error ){
+      //     reject( error );
+      //   }
+      // });
 
-      // Wait for completion
-      sendComment.then(function(result) {
-        tools.log.success(
-          `Sent new issue comment for '${ issue.title }' to Zapier.`
-        );
-      }, function(err) {
-        tools.exit.failure( err );
-      });
+      // // Wait for completion
+      // sendComment.then(function(result) {
+      //   tools.log.success(
+      //     `Sent new issue comment for '${ issue.title }' to Zapier.`
+      //   );
+      // }, function(err) {
+      //   tools.exit.failure( err );
+      // });
     } else {
       let labelString = labels.toString();
       tools.exit.neutral( `New comment for '${ issue.title }' does not contain '+1' or the issue is not a feature request. Comment: '${ body }' -- Labels: ${ labelNames }'` );
