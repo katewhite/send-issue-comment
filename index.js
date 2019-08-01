@@ -29,7 +29,7 @@ Toolkit.run( async ( tools ) => {
         var getTicketThreads = new Promise( async( resolve, reject ) => {
           try {
             var request = new XMLHttpRequest();
-            var url = `https://api.helpscout.net/v2/conversations/${ groups.id }/threads`;
+            var url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
 
             request.open('GET', url, true);
 
