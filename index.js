@@ -52,7 +52,7 @@ Toolkit.run( async ( tools ) => {
             request.open('POST', url, true);
 
             // Send request
-            request.send(JSON.stringify(data));
+            request.send();
           }
           catch( error ){
             reject( error );
