@@ -73,8 +73,6 @@ Toolkit.run( async ( tools ) => {
               client_secret: HS_APP_SECRET
             })
             .then(function (response) {
-              tools.log('TOKEN RESPONSE:');
-              tools.log(response);
               resolve(response);
             })
             .catch(function (error) {
@@ -90,12 +88,9 @@ Toolkit.run( async ( tools ) => {
             let authString = `Bearer ${ response.data.access_token }`;
             axios.get(url, {headers: { "Authorization": authString }})
             .then(function (response) {
-              tools.log('THREADS RESPONSE:');
-              tools.log(response);
-              let responseJSON = JSON.parse(this.responseText);
               tools.log('THREADS RESPONSE JSON:');
-              tools.log(responseJSON);
-              resolve(responseJSON);
+              tools.log(response.data._embedded.threads);
+              resolve(response.data._embedded.threads);
             })
             .catch(function (error) {
               reject(error);
