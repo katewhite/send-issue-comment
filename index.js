@@ -1,6 +1,4 @@
 const { Toolkit } = require( 'actions-toolkit' );
-const { XMLHttpRequest } = require( 'xmlhttprequest' );
-const FormData = require('form-data');
 const axios = require('axios');
 
 
@@ -48,8 +46,6 @@ Toolkit.run( async ( tools ) => {
             customerEmail
           })
           .then(function (response) {
-            tools.log('SEND COMMENT RESPONSE:');
-            tools.log(response);
             resolve();
           })
           .catch(function (error) {
@@ -60,7 +56,6 @@ Toolkit.run( async ( tools ) => {
 
       // Get and format HS ticket threads if a link exists
       if (body.includes('secure.helpscout.net')) {
-        tools.log('contains hs link');
         let pattern = /(?<url>https:\/\/secure.helpscout.net\/conversation\/(?<id>.*)\/.*)/;
         let { groups: { url, id } } = body.match(pattern);
 
@@ -88,8 +83,6 @@ Toolkit.run( async ( tools ) => {
             let authString = `Bearer ${ response.data.access_token }`;
             axios.get(url, {headers: { "Authorization": authString }})
             .then(function (response) {
-              tools.log('THREADS RESPONSE JSON:');
-              tools.log(response.data._embedded.threads);
               resolve(response.data._embedded.threads);
             })
             .catch(function (error) {

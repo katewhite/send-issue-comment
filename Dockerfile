@@ -26,8 +26,6 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm ci
-RUN npm install xmlhttprequest
-RUN npm install form-data
 RUN npm install axios
 
 # Copy the rest of your action's code
