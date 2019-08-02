@@ -16,7 +16,9 @@ Toolkit.run( async ( tools ) => {
     for (let i = 0; i < labels.length; i++) { 
       labelNames += labels[i].name + ";";
     }
-    let threadsContent = null;
+    let threadsContent = '';
+    let customerName = '';
+    let customerEmail = '';
     if (body.includes('+1') && labelNames.includes('feature request')) {
       let ticketNumber = null;
       let hsToken = null;
@@ -27,8 +29,8 @@ Toolkit.run( async ( tools ) => {
             // Build the threads HTML
             threadsContent = '';
             let threads = response;
-            let customerName = `${ threads[0].customer.first } ${ threads[0].customer.last }`;
-            let customerEmail = threads[0].customer.email;
+            customerName = `${ threads[0].customer.first } ${ threads[0].customer.last }`;
+            customerEmail = threads[0].customer.email;
             for (let j = 0; j < threads.length; j++) { 
               threadsContent += 
               '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
