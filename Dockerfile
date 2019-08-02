@@ -11,12 +11,12 @@
 FROM node:alpine
 
 # Labels for GitHub to read your action
-LABEL "maintainer"="Alex Page <alex@alexpage.com.au>"
-LABEL "repository"="https://github.com/alex-page/move-assigned-issue-column"
-LABEL "homepage"="https://github.com/alex-page/move-assigned-issue-column"
+LABEL "maintainer"="Kate White <kate@customer.io>"
+LABEL "repository"="https://github.com/katewhite/send-issue-comment"
+LABEL "homepage"="https://github.com/katewhite/send-issue-comment"
 
-LABEL "com.github.actions.name"="Move assigned issues column"
-LABEL "com.github.actions.description"="✨ Magically move assigned issues to a column."
+LABEL "com.github.actions.name"="Send issue comment to Zapier"
+LABEL "com.github.actions.description"="Check every issue comment for '+1' or 'feature request' label, parse HS ticket if it exists, and send all relevant information to Zapier. Right now, this is being used to then create a note in productboard."
 
 LABEL "com.github.actions.icon"="move"
 LABEL "com.github.actions.color"="green"

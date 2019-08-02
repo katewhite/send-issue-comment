@@ -23,15 +23,17 @@ Toolkit.run( async ( tools ) => {
       
       let sendComment = function(response) {
         return new Promise((resolve, reject) => {
-          // Build the threads HTML
-          threadsContent = '';
-          let threads = response;
-          let customerName = `${ threads[0].customer.first } ${ threads[0].customer.last }`;
-          let customerEmail = threads[0].customer.email;
-          for (let j = 0; j < threads.length; j++) { 
-            threadsContent += 
-            '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
-            '<p>' + threads[j].body + '</p>';
+          if (response) {
+            // Build the threads HTML
+            threadsContent = '';
+            let threads = response;
+            let customerName = `${ threads[0].customer.first } ${ threads[0].customer.last }`;
+            let customerEmail = threads[0].customer.email;
+            for (let j = 0; j < threads.length; j++) { 
+              threadsContent += 
+              '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
+              '<p>' + threads[j].body + '</p>';
+            }
           }
 
           // Send comment
@@ -99,7 +101,7 @@ Toolkit.run( async ( tools ) => {
           tools.exit.failure( err );
         });;
       } else {
-        sendComment.then(function(result) {
+        sendComment().then(function(result) {
           tools.log.success(
             `Sent new issue comment for '${ issue.title }' to Zapier.`
           );
