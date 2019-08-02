@@ -89,7 +89,7 @@ Toolkit.run( async ( tools ) => {
             let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
             let authString = `Bearer ${ response.data.access_token }`;
             tools.log('AUTH: ' + authString);
-            axios.get(url, {headers: { "Authorization": authString }});
+            axios.get(url, {headers: { "Authorization": authString }})
             .then(function (response) {
               let responseJSON = JSON.parse(this.responseText);
               tools.log('THREADS RESPONSE:');
