@@ -89,10 +89,10 @@ Toolkit.run( async ( tools ) => {
             let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`
             axios.get(url)
             .then(function (response) {
-              let response = JSON.parse(this.responseText);
+              let responseJSON = JSON.parse(this.responseText);
               tools.log('THREADS RESPONSE:');
-              tools.log(response);
-              resolve(response);
+              tools.log(responseJSON);
+              resolve(responseJSON);
             })
             .catch(function (error) {
               reject(error);
