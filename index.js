@@ -27,9 +27,9 @@ Toolkit.run( async ( tools ) => {
         return new Promise((resolve, reject) => {
           // Build the threads HTML
           threadsContent = '';
-          let threads = result._embedded.threads;
-          let customerName = `${ result._embedded.threads[0].customer.first } ${ result._embedded.threads[0].customer.last }`;
-          let customerEmail = result._embedded.threads[0].customer.email;
+          let threads = response;
+          let customerName = `${ threads[0].customer.first } ${ threads[0].customer.last }`;
+          let customerEmail = threads[0].customer.email;
           for (let j = 0; j < threads.length; j++) { 
             threadsContent += 
             '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
