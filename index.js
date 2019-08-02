@@ -11,6 +11,9 @@ Toolkit.run( async ( tools ) => {
     const { title, labels } = issue;
     const { login } = sender;
 
+    const HS_APP_ID = process.env.HS_APP_ID;
+    const HS_APP_SECRET = process.env.HS_APP_SECRET;
+
     let labelNames = '';
     for (let i = 0; i < labels.length; i++) { 
       labelNames += labels[i].name + ";";
@@ -45,6 +48,8 @@ Toolkit.run( async ( tools ) => {
             customerEmail
           })
           .then(function (response) {
+            tools.log('SEND COMMENT RESPONSE:');
+            tools.log(response);
             resolve();
           })
           .catch(function (error) {
@@ -64,10 +69,11 @@ Toolkit.run( async ( tools ) => {
             // Get HS access token
             axios.post('https://api.helpscout.net/v2/oauth2/token', {
               grant_type: "client_credentials", 
-              client_id: "0def26e02fe841fbbbe1dff415284eb8",
-              client_secret: "da7db41c06814699a0f8f1c9354aa57c"
+              client_id: HS_APP_ID,
+              client_secret: HS_APP_SECRET
             })
             .then(function (response) {
+              tools.log('TOKEN RESPONSE:');
               tools.log(response);
               resolve(response);
             })
@@ -84,6 +90,8 @@ Toolkit.run( async ( tools ) => {
             axios.get(url)
             .then(function (response) {
               let response = JSON.parse(this.responseText);
+              tools.log('THREADS RESPONSE:');
+              tools.log(response);
               resolve(response);
             })
             .catch(function (error) {
@@ -118,101 +126,11 @@ Toolkit.run( async ( tools ) => {
   }
 }, {
   event: [ 'issue_comment' ],
-  secrets: [ 'GITHUB_TOKEN' ],
+  secrets: [ 'HS_APP_ID', 'HS_APP_SECRET' ],
 })
 
 
 
 
-// ID: 0def26e02fe841fbbbe1dff415284eb8
-// Secret: da7db41c06814699a0f8f1c9354aa57c
 
-// curl -X POST https://api.helpscout.net/v2/oauth2/token \
-//     --data "grant_type=client_credentials" \
-//     --data "client_id=0def26e02fe841fbbbe1dff415284eb8" \
-//     --data "client_secret=da7db41c06814699a0f8f1c9354aa57c"
-
-// curl -X GET https://api.helpscout.net/v2/conversations/85065 -H "Authorization: Bearer 806c10f97cb6435eab6cdaf8c973246c"
-
-
-
-// Get HS ticket threads
-          // let getTicketThreads = new Promise( async( resolve, reject ) => {
-          //   try {
-          //     let request = new XMLHttpRequest();
-          //     let url = `https://api.helpscout.net/v2/conversations/${ id }/threads`;
-
-          //     request.addEventListener("readystatechange", function () {
-          //       if (this.readyState === 4) {
-          //         let response = JSON.parse(this.responseText);
-          //         resolve(response);
-          //       }
-          //     });
-
-          //     request.open('GET', url, true);
-          //     request.setRequestHeader("Authorization", "Bearer b43fe5f8441b4deb969422a827c1822b");
-
-          //     // Send request
-          //     request.send();
-          //   }
-          //   catch( error ){
-          //     reject( error );
-          //   }
-          // });
-
-          // Wait for completion
-          // getTicketThreads.then(function(result) {
-          //   tools.log(`Got threads for ticket '${ id }'`);
-
-          //   // Build the threads HTML
-          //   threadsContent = '';
-          //   let threads = result._embedded.threads;
-          //   let customerName = `${ result._embedded.threads[0].customer.first } ${ result._embedded.threads[0].customer.last }`;
-          //   let customerEmail = result._embedded.threads[0].customer.email;
-          //   for (let j = 0; j < threads.length; j++) { 
-          //     threadsContent += 
-          //     '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
-          //     '<p>' + threads[j].body + '</p>';
-          //   }
-
-          //   // Send to Zapier
-          //   let sendComment = new Promise( async( resolve, reject ) => {
-          //     try {
-          //       let request = new XMLHttpRequest();
-
-          //       request.open('POST', 'https://hooks.zapier.com/hooks/catch/3679287/oon4u7z/', true);
-
-          //       const data = {
-          //         body,
-          //         html_url,
-          //         created_at,
-          //         title,
-          //         login, 
-          //         threadsContent,
-          //         customerName,
-          //         customerEmail
-          //       }
-
-          //       // Send request
-          //       request.send(JSON.stringify(data));
-
-          //       resolve();
-          //     }
-          //     catch( error ){
-          //       reject( error );
-          //     }
-          //   });
-
-            // Wait for completion
-          //   sendComment.then(function(result) {
-          //     tools.log.success(
-          //       `Sent new issue comment for '${ issue.title }' to Zapier.`
-          //     );
-          //   }, function(err) {
-          //     tools.exit.failure( err );
-          //   });
-
-          // }, function(err) {
-          //   tools.exit.failure( err );
-          // });
 
