@@ -53,6 +53,7 @@ Toolkit.run( async ( tools ) => {
             resolve();
           })
           .catch(function (error) {
+            tools.log('Error when sending to Zapier');
             reject(error);
           });
         });
@@ -75,6 +76,7 @@ Toolkit.run( async ( tools ) => {
               resolve(response);
             })
             .catch(function (error) {
+              tools.log('Error getting HS token');
               reject(error);
             });
           });
@@ -90,6 +92,7 @@ Toolkit.run( async ( tools ) => {
               resolve(response.data._embedded.threads);
             })
             .catch(function (error) {
+              tools.log(`Error getting HS threads. URL - ${ url }` );
               reject(error);
             });
           });
@@ -108,6 +111,7 @@ Toolkit.run( async ( tools ) => {
             `Sent new issue comment for '${ issue.title }' to Zapier.`
           );
         }, function(err) {
+          tools.log(`Error sending comment for issue '${ issue.title }'` );
           tools.exit.failure( err );
         });
       } 
