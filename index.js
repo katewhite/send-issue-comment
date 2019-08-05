@@ -12,8 +12,7 @@ Toolkit.run( async ( tools ) => {
     const HS_APP_ID = process.env.HS_APP_ID;
     const HS_APP_SECRET = process.env.HS_APP_SECRET;
 
-    tools.log(issue);
-    tools.log(`Running action for issue #${ issue.id }; '${ issue.title }'`);
+    tools.log(`Running action for issue #${ issue.number }; '${ issue.title }'`);
 
     let labelNames = '';
     for (let i = 0; i < labels.length; i++) { 
@@ -22,7 +21,7 @@ Toolkit.run( async ( tools ) => {
     let threadsContent = '';
     let customerName = '';
     let customerEmail = '';
-    if (body.includes('+1') && labelNames.includes('feature request')) {
+    if (labelNames.includes('feature request')) {
       let ticketNumber = null;
       let hsToken = null;
       
