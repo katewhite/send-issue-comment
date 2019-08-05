@@ -12,6 +12,8 @@ Toolkit.run( async ( tools ) => {
     const HS_APP_ID = process.env.HS_APP_ID;
     const HS_APP_SECRET = process.env.HS_APP_SECRET;
 
+    tools.log(`Running action for issue #${ issue.id }; '${ issue.title }'`);
+
     let labelNames = '';
     for (let i = 0; i < labels.length; i++) { 
       labelNames += labels[i].name + ";";
