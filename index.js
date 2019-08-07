@@ -31,6 +31,7 @@ Toolkit.run( async ( tools ) => {
             // Build the threads HTML
             threadsContent = '';
             let threads = response;
+            tools.log(threads[0]);
             customerName = `${ threads[0].customer.first } ${ threads[0].customer.last }`;
             customerEmail = threads[0].customer.email;
             for (let j = 0; j < threads.length; j++) { 
