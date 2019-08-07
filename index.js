@@ -31,10 +31,11 @@ Toolkit.run( async ( tools ) => {
             // Build the threads HTML
             threadsContent = '';
             let threads = response;
-            tools.log(threads);
-            customerName = `${ threads[0].customer.first } ${ threads[0].customer.last }`;
-            customerEmail = threads[0].customer.email;
             for (let j = 0; j < threads.length; j++) { 
+              if (threads[j].type == 'customer') {
+                customerName = `${ threads[j].customer.first } ${ threads[j].customer.last }`;
+                customerEmail = threads[j].customer.email;
+              }
               threadsContent += 
               '<br><hr><br><strong>From: </strong>' + threads[j].createdBy.email +
               '<p>' + threads[j].body + '</p>';
